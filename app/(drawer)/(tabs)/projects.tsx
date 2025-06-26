@@ -16,7 +16,7 @@ export default function ProjectsScreen() {
     <ScrollView style={styles.container}>
       {/* Header with background image */}
       <View style={styles.headerImgContainer}>
-        <Image source={{ uri: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80' }} style={styles.headerImg} />
+        <Image source={require('../../../assets/images/project.jpg')} style={styles.headerImg} />
         <View style={styles.headerOverlay} />
         <TouchableOpacity style={styles.menuBtn}>
           <Ionicons name="menu" size={28} color="#fff" />

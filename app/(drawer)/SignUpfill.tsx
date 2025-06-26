@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   Pressable,
   ScrollView,
@@ -8,7 +9,6 @@ import {
   Text,
   TextInput,
   View,
-  ActivityIndicator,
 } from 'react-native';
 
 export default function EmailAuth() {
@@ -40,13 +40,11 @@ export default function EmailAuth() {
     }
 
     // 🔁 Simulated API delay and success
-  Alert.alert('Signing up...', 'Please wait');
-  setTimeout(() => {
-    Alert.alert('Success', 'Account created!');
-    router.replace('/(tabs)'); // Navigate to Home screen
-  }, 1500);
-
-
+    Alert.alert('Signing up...', 'Please wait');
+    setTimeout(() => {
+      Alert.alert('Success', 'Account created!');
+      router.replace('/(drawer)/(tabs)'); // Navigate to tabs (home screen) within drawer
+    }, 1500);
 
     // 2. API Request
     // setLoading(true);
@@ -128,7 +126,7 @@ export default function EmailAuth() {
 
         <Text style={styles.footerText}>
           Already have an account?{' '}
-          <Text style={styles.link} onPress={() => router.push('/LogIn')}>
+          <Text style={styles.link} onPress={() => router.push('/LogIn2')}>
             Login
           </Text>
         </Text>
@@ -136,8 +134,6 @@ export default function EmailAuth() {
     </ScrollView>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -163,11 +159,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FF2290',
     fontSize: 40,
-    fontFamily:'serif',
     position: 'absolute',
     top: '10%',
     left: 0,
     margin: 10,
+    fontFamily: 'Transcity',
   },
   title: {
     fontSize: 22,

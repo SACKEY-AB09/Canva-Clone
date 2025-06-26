@@ -49,7 +49,7 @@ const [errorMsg, setErrorMsg] = useState<string | null>(null);
   return (
     <View style={styles.container}>
       <View style={{display: 'flex' , flexDirection: 'row' , top:30}}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=> router.back()}>
           <Ionicons name="chevron-back" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.title}>Continue to sign up for free</Text>
@@ -64,7 +64,7 @@ const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
       <TouchableOpacity style={styles.button} onPress={handleGoogleSignIn}>
   <Image
-    source={require('../assets/images/google.png')} // place the image in your assets folder
+    source={require('../../assets/images/google.png')} // place the image in your assets folder
     style={{ width: 28, height: 28, marginRight: 8 }}
   />
   <Text style={styles.buttonText}>Continue with Google</Text>
@@ -89,20 +89,20 @@ const [errorMsg, setErrorMsg] = useState<string | null>(null);
         <Text style={styles.buttonText}>Continue with Facebook</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/SignUpfill')}>
+      <TouchableOpacity style={styles.button} onPress={() => router.push('/(drawer)/SignUpfill')}>
         <Ionicons name="mail-outline" size={24} color="black" />
         <Text style={styles.buttonText}>Continue with email</Text>
       </TouchableOpacity>
 
       <Text style={styles.loginText}>
         Already have an account?
-        <Link href="/LogIn" style={styles.link}>Login</Link>
+        <Link href="/(drawer)/LogIn2" style={styles.link}>Login</Link>
         
          
       </Text>
 
       <Text style={styles.terms}>
-        By continuing you agree to Popink’s <Text style={styles.link}>Terms of Use</Text>. Read our{" "}
+        By continuing you agree to Popink's <Text style={styles.link}>Terms of Use</Text>. Read our{" "}
         <Text style={styles.link}>Privacy Policy</Text>
       </Text>
     </View>

@@ -7,14 +7,14 @@ const SplashScreen = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace('/'); // Navigate to app/index.tsx
+      router.replace('/(drawer)'); 
     }, 2000); // 2 seconds
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/images/Logo.jpg')} style={styles.logo} />
+      <Image source={require('../../assets/images/Logo.png')} style={styles.logo} />
     </View>
   );
 };
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   }, 
   logo: {
     width:300,
-    height:300,
+    height:400,
     borderRadius:200,
   },
 });

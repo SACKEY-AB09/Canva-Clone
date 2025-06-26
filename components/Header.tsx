@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -7,6 +8,7 @@ import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 export default function Header() {
   const [searchText, setSearchText] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const navigation = useNavigation();
 
   const handleSearch = async () => {
     if (!searchText.trim()) {
@@ -34,20 +36,29 @@ export default function Header() {
   };
 
   return (
-    <LinearGradient colors={['#FF2290', '#FFFFFF', '#FFFFFF']}
-      locations={[0, 0.5, 0.9]}
+    <LinearGradient colors={['#FF2290', '#FFB6D9','#FFFFFF',]}
+      locations={[0, 0.4, 1]}
       style={styles.header}>
       <View style={styles.row}>
-        <TouchableOpacity style={styles.box} onPress={() => router.push('/Menu')}>
+        <TouchableOpacity 
+          style={styles.box} 
+          onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+        >
           <Ionicons name="menu" size={30} color="#333" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.box}>
+        <TouchableOpacity 
+          style={styles.box}
+          onPress={() => router.push('/Profile')}
+        >
           <Ionicons name="person-circle" size={30} color="#333" />
         </TouchableOpacity>
       </View>
       <Text style={styles.title}>What will you design today?</Text>
       <View style={styles.searchRow}>
-        <TouchableOpacity style={styles.tabBtn}>
+        <TouchableOpacity 
+          style={styles.tabBtn}
+          onPress={() => router.push('/YourStories')}
+        >
           <Ionicons name="color-palette" size={18} color="black" />
           <Text>Your Designs</Text>
         </TouchableOpacity>

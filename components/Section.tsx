@@ -5,9 +5,10 @@ interface SectionProps {
   title: string;
   data: any[];
   showAddButton?: boolean;
+  onSeeAll?: () => void;
 }
 
-export default function Section({ title, data, showAddButton = false }: SectionProps) {
+export default function Section({ title, data, showAddButton = false, onSeeAll }: SectionProps) {
   const renderItem = ({ item, index }: { item: any; index: number }) => {
     // Show add button as first item for recent designs
     if (showAddButton && index === 0) {
@@ -27,7 +28,9 @@ export default function Section({ title, data, showAddButton = false }: SectionP
     <View style={styles.section}>
       <View style={styles.header}>
         <Text style={styles.title}>{title}</Text>
-        <TouchableOpacity><Text style={styles.seeAll}>See all</Text></TouchableOpacity>
+        <TouchableOpacity onPress={onSeeAll}>
+          <Text style={styles.seeAll}>See all</Text>
+        </TouchableOpacity>
       </View>
       <FlatList
         data={getDataWithAddButton()}

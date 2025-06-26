@@ -1,37 +1,41 @@
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { Montserrat_400Regular, Montserrat_700Bold, useFonts as useGoogleFonts } from '@expo-google-fonts/montserrat';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-// import { useFonts } from 'expo-font';
-import { Montserrat_400Regular, Montserrat_700Bold, useFonts } from '@expo-google-fonts/montserrat';
-import { Stack } from 'expo-router';
+import { useFonts as useExpoFonts } from 'expo-font';
+import { Stack } from 'expo-router/stack';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { DesignProvider } from '../contexts/DesignContext';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [fontsloaded] = useFonts({
+  const [googleFontsLoaded] = useGoogleFonts({
     Montserrat_400Regular,
     Montserrat_700Bold,
   });
+  
+  const [expoFontsLoaded] = useExpoFonts({
+    Transcity: require('../assets/fonts/Transcity-owMAA.otf'),
+  });
+
+  const fontsloaded = googleFontsLoaded && expoFontsLoaded;
 
   if (!fontsloaded) {
-    // Async font loading only occurs in development.
     return null;
   }
 
   return (
     <DesignProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="Splash" options={{headerShown: false}} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name= "SignUpfill" options={{headerShown: false}} />
-          <Stack.Screen name="LogIn" options={{headerShown :false}} />
-          <Stack.Screen name="Profile" options={{ headerShown: false }} />
-          <Stack.Screen name="Menu" options={{ headerShown: false }} />
-          {/* Add more screens as needed */}
+        <Stack screenOptions={{ headerShown: false }}>
+          {/* Main app navigation with drawer - contains all screens including Splash */}
+          <Stack.Screen 
+            name="(drawer)" 
+            options={{ 
+              headerShown: false,
+              gestureEnabled: false, // Disable swipe back gesture from main app to splash
+            }} 
+          />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>

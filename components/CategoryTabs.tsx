@@ -1,5 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // Define the type for our category items
@@ -8,10 +9,11 @@ type Category = {
   label: string;
   bgColor: string;
   iconColor: string;
+  route?: string; // Add optional route property
 };
 
 const categories: Category[] = [
-  { icon: 'image', label: 'Your story', bgColor: '#FF10F440', iconColor: '#FF10F4' }, 
+  { icon: 'image', label: 'Your story', bgColor: '#FF10F440', iconColor: '#FF10F4', route: '/YourStories' }, 
   { icon: 'play-box', label: 'Mobile Video', bgColor: '#FF10F4', iconColor: '#FFFFFF' },
   { icon: 'tshirt-crew', label: 'T-Shirt', bgColor: '#C22EF340', iconColor: '#5927EC' },
   { icon: 'account-group', label: 'Social Media', bgColor: '#EF191C', iconColor: '#FFFFFF' },
@@ -28,14 +30,26 @@ const extraCategories: Category[] = [
 
 export default function CategoryTabs() {
     const [showMore, setShowMore] = useState(false);
+    const router = useRouter();
     const categoriesToShow = showMore 
     ? [...categories, ...extraCategories]
     : categories;
 
+  const handleCategoryPress = (category: Category) => {
+    if (category.route) {
+      router.push(category.route as any);
+    }
+    // For other categories, you can add navigation logic later
+  };
+
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scroll}>
       {categoriesToShow.map((cat, idx) => (
-        <TouchableOpacity key={idx} style={styles.tab}>
+        <TouchableOpacity 
+          key={idx} 
+          style={styles.tab}
+          onPress={() => handleCategoryPress(cat)}
+        >
             <View style={[styles.iconCircle, { backgroundColor: cat.bgColor }]}>
           <MaterialCommunityIcons name={cat.icon} size={24} color={cat.iconColor} />
           </View>

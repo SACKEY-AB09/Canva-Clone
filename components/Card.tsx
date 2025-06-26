@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDesignStore } from '../stores/DesignStore';
 
 interface CardProps {
   item: any;
@@ -9,19 +10,17 @@ interface CardProps {
 
 export default function Card({ item, isAddButton = false }: CardProps) {
   const router = useRouter();
+  const { clearDesign } = useDesignStore();
 
-  const handlePress = () => {
-    if (isAddButton) {
-      router.push('/DesignCreator' as any);
-    } else {
-      // Navigate to design editor with design ID
-      router.push(`/DesignEditor?id=${item.id}` as any);
-    }
+  const handleAddDesign = () => {
+    // Clear any existing design to start fresh
+    clearDesign();
+    router.push('CanvaDesignPage' as any);
   };
 
   if (isAddButton) {
     return (
-      <TouchableOpacity style={styles.card} onPress={handlePress}>
+      <TouchableOpacity style={styles.card} onPress={handleAddDesign}>
         <View style={styles.addButtonImage}>
           <Ionicons name="add" size={32} color="#FFB6E6" />
         </View>
@@ -31,7 +30,7 @@ export default function Card({ item, isAddButton = false }: CardProps) {
   }
 
   return (
-    <TouchableOpacity style={styles.card} onPress={handlePress}>
+    <TouchableOpacity style={styles.card}>
       <Image source={{ uri: item.image }} style={styles.image} />
       <Text style={styles.label} numberOfLines={1}>{item.label}</Text>
     </TouchableOpacity>

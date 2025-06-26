@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     top: '10%',
     left: 0,
     margin: 10,
-    fontFamily:'serif',
+    fontFamily: 'Transcity',
   },
   title: {
     fontSize: 22,
