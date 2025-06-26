@@ -4,7 +4,6 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts as useExpoFonts } from 'expo-font';
 import { Stack } from 'expo-router/stack';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
 import { DesignProvider } from '../contexts/DesignContext';
 
 export default function RootLayout() {
@@ -13,29 +12,18 @@ export default function RootLayout() {
     Montserrat_400Regular,
     Montserrat_700Bold,
   });
-  
   const [expoFontsLoaded] = useExpoFonts({
     Transcity: require('../assets/fonts/Transcity-owMAA.otf'),
   });
-
   const fontsloaded = googleFontsLoaded && expoFontsLoaded;
-
-  if (!fontsloaded) {
-    return null;
-  }
+  if (!fontsloaded) return null;
 
   return (
     <DesignProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack screenOptions={{ headerShown: false }}>
-          {/* Main app navigation with drawer - contains all screens including Splash */}
-          <Stack.Screen 
-            name="(drawer)" 
-            options={{ 
-              headerShown: false,
-              gestureEnabled: false, // Disable swipe back gesture from main app to splash
-            }} 
-          />
+          <Stack.Screen name="Splash" options={{ headerShown: false }} />
+          <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>

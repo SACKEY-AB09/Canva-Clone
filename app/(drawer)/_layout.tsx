@@ -10,10 +10,7 @@ export default function DrawerLayout() {
         drawerStyle: { backgroundColor: '#fff', width: 250 },
       }}
     >
-      <Drawer.Screen name="Splash" options={{ 
-        title: 'Splash',
-        drawerItemStyle: { display: 'none' } // Hide from drawer menu
-      }} />
+     
       <Drawer.Screen 
         name="(tabs)" 
         options={{ 
