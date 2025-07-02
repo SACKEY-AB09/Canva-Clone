@@ -9,7 +9,7 @@ export interface Point {
 
 export interface Shape {
   id: string;
-  type: 'rectangle' | 'circle';
+  type: 'rectangle' | 'circle' | 'ellipse' | 'triangle' | 'line' | 'star';
   x: number;
   y: number;
   width: number;
@@ -45,7 +45,7 @@ export interface ImageElement {
 
 export type Element = Shape | TextElement | ImageElement;
 
-export type Tool = 'select' | 'rectangle' | 'circle' | 'text' | 'image';
+export type Tool = 'select' | 'rectangle' | 'circle' | 'ellipse' | 'triangle' | 'line' | 'star' | 'text' | 'image';
 
 interface HistoryState {
   past: Element[][];

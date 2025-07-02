@@ -89,7 +89,7 @@ const [errorMsg, setErrorMsg] = useState<string | null>(null);
         <Text style={styles.buttonText}>Continue with Facebook</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/(drawer)/SignUpfill')}>
+              <TouchableOpacity style={styles.button} onPress={() => router.push('/(drawer)/(auth)/SignUpfill')}>
         <Ionicons name="mail-outline" size={24} color="black" />
         <Text style={styles.buttonText}>Continue with email</Text>
       </TouchableOpacity>
@@ -123,7 +123,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 30,
     fontWeight: 'bold',
-    fontFamily: 'Montserrat_700Regular',
   },
   button: {
     flexDirection: 'row',
@@ -139,7 +138,6 @@ const styles = StyleSheet.create({
   buttonText: {
     marginLeft: 10,
     fontSize: 16,
-    fontFamily: 'Montserrat_700Regular',
   },
   loginText: {
     marginTop: 30,
@@ -148,13 +146,11 @@ const styles = StyleSheet.create({
   },
   link: {
     color: 'hotpink',
-    fontFamily: 'Montserrat_700Regular',
   },
   terms: {
     fontSize: 12,
     textAlign: 'center',
     marginTop: 15,
     color: '#555',
-    fontFamily: 'Montserrat_400Regular',
   },
 });

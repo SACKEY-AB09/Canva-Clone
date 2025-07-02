@@ -33,21 +33,21 @@ export default function DrawerLayout() {
         }} 
       />
       <Drawer.Screen 
-        name="SignUpfill" 
+        name="(auth)/SignUpfill" 
         options={{ 
           title: 'Sign Up Fill',
           drawerItemStyle: { display: 'none' } // Hide from drawer menu
         }} 
       />
       <Drawer.Screen 
-        name="LogIn" 
+        name="(auth)/LogIn" 
         options={{ 
           title: 'Login',
           drawerItemStyle: { display: 'none' } // Hide from drawer menu
         }} 
       />
       <Drawer.Screen 
-        name="LogIn2" 
+        name="(auth)/LogIn2" 
         options={{ 
           title: 'Login 2',
           drawerItemStyle: { display: 'none' } // Hide from drawer menu

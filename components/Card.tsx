@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useDesignStore } from '../stores/DesignStore';
+import { useDesignStore } from '../stores/designStore';
 
 interface CardProps {
   item: any;

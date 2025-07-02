@@ -15,7 +15,7 @@ import {
 import ViewShot from 'react-native-view-shot';
 
 import { useDesigns } from '../../contexts/DesignContext';
-import { useDesignStore } from '../../stores/DesignStore';
+import { useDesignStore } from '../../stores/designStore';
 
 export default function YourStories() {
   const { recentDesigns, deleteDesign } = useDesigns();

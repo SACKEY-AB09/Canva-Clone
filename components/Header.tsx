@@ -36,7 +36,7 @@ export default function Header() {
   };
 
   return (
-    <LinearGradient colors={['#FF2290', '#FFB6D9','#FFFFFF',]}
+    <LinearGradient colors={['#a5b4fc', '#eef2ff','#FFFFFF',]}
       locations={[0, 0.4, 1]}
       style={styles.header}>
       <View style={styles.row}>

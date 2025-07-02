@@ -1,8 +1,11 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  Image,
+  Keyboard,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -17,6 +20,7 @@ export default function EmailAuth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSignUp = async () => {
     // 1. Validation
@@ -43,7 +47,7 @@ export default function EmailAuth() {
     Alert.alert('Signing up...', 'Please wait');
     setTimeout(() => {
       Alert.alert('Success', 'Account created!');
-      router.replace('/'); // Navigate to the root path
+      router.push('/(drawer)/(tabs)'); // Use push instead of replace
     }, 1500);
 
     // 2. API Request
@@ -76,7 +80,8 @@ export default function EmailAuth() {
       contentContainerStyle={styles.wrapper}
       keyboardShouldPersistTaps="handled"
     >
-      <Text style={styles.logo}>Craftiv</Text>
+      <View><Image source={require('../../../assets/images/Logo.png')} style={styles.logo} />
+      </View>
       <View style={styles.container}>
         <Text style={styles.title}>Sign Up</Text>
 
@@ -100,19 +105,32 @@ export default function EmailAuth() {
           accessibilityLabel="Email input"
           textContentType="emailAddress"
         />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          style={styles.input}
-          placeholderTextColor="#999"
-          secureTextEntry
-          accessibilityLabel="Password input"
-          textContentType="password"
-        />
+        <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}>
+          <TextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            style={[styles.input, { flex: 1, marginBottom: 0 }]}
+            placeholderTextColor="#999"
+            secureTextEntry={!showPassword}
+            accessibilityLabel="Password input"
+            textContentType="password"
+          />
+          <Pressable
+            onPress={() => setShowPassword((prev) => !prev)}
+            onPressIn={() => Keyboard.dismiss()}
+            hitSlop={10}
+          >
+            <Ionicons
+              name={showPassword ? 'eye-off' : 'eye'}
+              size={22}
+              color="#999"
+              style={{ marginLeft: -35, marginRight: 10 }}
+            />
+          </Pressable>
+        </View>
 
-        {/* Button */}
-        <Pressable
+            <Pressable
           style={[styles.button, loading && { opacity: 0.6 }]}
           onPress={handleSignUp}
           disabled={loading}
@@ -124,9 +142,10 @@ export default function EmailAuth() {
           )}
         </Pressable>
 
+
         <Text style={styles.footerText}>
           Already have an account?{' '}
-          <Text style={styles.link} onPress={() => router.push('/LogIn2')}>
+          <Text style={styles.link} onPress={() => router.push('/(drawer)/(auth)/LogIn2')}>
             Login
           </Text>
         </Text>
@@ -141,7 +160,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F4FF',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 40,
   },
   container: {
     width: '90%',
@@ -153,17 +171,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 5,
+    marginTop: -20,
   },
   logo: {
+    width: 300,
+    height: 100,
+    marginTop: -30,
     marginBottom: 20,
-    fontWeight: 'bold',
-    color: '#FF2290',
-    fontSize: 40,
-    position: 'absolute',
-    top: '10%',
-    left: 0,
-    margin: 10,
-    fontFamily: 'Transcity',
   },
   title: {
     fontSize: 22,
@@ -183,8 +197,8 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    backgroundColor: '#FF2290',
     paddingVertical: 12,
+    backgroundColor: '#6366F1',
     borderRadius: 10,
     marginTop: 10,
     alignItems: 'center',
@@ -193,14 +207,18 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
     fontSize: 16,
+    fontFamily: 'Montserrat_700Regular',
   },
   footerText: {
     marginTop: 20,
     fontSize: 13,
     color: '#444',
+    fontFamily: 'Montserrat_400Regular',
   },
   link: {
-    color: '#ff007a',
+    color: '#6366F1',
     fontWeight: '500',
+    fontSize: 18,
+    fontFamily: 'Montserrat_700Regular',
   },
 });

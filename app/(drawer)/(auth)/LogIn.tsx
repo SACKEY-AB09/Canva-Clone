@@ -1,8 +1,10 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -23,6 +25,7 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     if (!name || !email || !password) {
@@ -36,7 +39,7 @@ export default function LoginScreen() {
       Alert.alert('Loging in...', 'Please wait');
       setTimeout(() => {
         Alert.alert('Success', 'Log in');
-        router.replace('/(tabs)'); // Navigate to Home screen
+        router.replace('/(drawer)/(tabs)'); // Use push instead of replace
       }, 1500);
 
     // try {
@@ -73,10 +76,11 @@ export default function LoginScreen() {
             showsVerticalScrollIndicator={false}
           >
             <View style={styles.wrapper}>
-              <Text style={styles.logo}>Craftiv</Text>
+              <Image source={require('../../../assets/images/Logo.png')} style={styles.logo} />
 
               <View style={styles.container}>
                 <Text style={styles.title}>Login</Text>
+                
 
                 <View style={styles.inputContainer}>
                   <TextInput
@@ -98,15 +102,29 @@ export default function LoginScreen() {
                     autoCapitalize="none"
                     returnKeyType="next"
                   />
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                    placeholderTextColor="#aaa"
-                    returnKeyType="done"
-                  />
+                  <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+                    <TextInput
+                      style={[styles.input, { flex: 1, marginBottom: 0 }]}
+                      placeholder="Password"
+                      value={password}
+                      onChangeText={setPassword}
+                      secureTextEntry={!showPassword}
+                      placeholderTextColor="#aaa"
+                      returnKeyType="done"
+                    />
+                    <TouchableOpacity
+                      onPress={() => setShowPassword((prev) => !prev)}
+                      onPressIn={() => Keyboard.dismiss()}
+                      hitSlop={10}
+                    >
+                      <Ionicons
+                        name={showPassword ? 'eye-off' : 'eye'}
+                        size={22}
+                        color="#999"
+                        style={{ marginLeft: -35, marginRight: 10 }}
+                      />
+                    </TouchableOpacity>
+                  </View>
                 </View>
 
                 <TouchableOpacity
@@ -145,36 +163,34 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 20,
     backgroundColor: '#F4F4FF',
   },
   container: {
     backgroundColor: '#F4F4FF',
     borderRadius: 15,
-    padding: 20,
+    padding: 30,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 5,
     width: '90%',
-    marginTop: 60,
+    marginTop: -20,
+    
   },
   logo: {
-    fontWeight: 'bold',
-    color: '#FF2290',
-    fontSize: 40,
-    position: 'absolute',
-    top: '10%',
-    left: 0,
-    margin: 10,
-    fontFamily: 'Transcity',
+    width: 300,
+    height: 100,
+    marginTop: -120,
+    marginBottom: 30,
+
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 30,
     color: '#000',
+    fontFamily: 'Montserrat_700Bold',
   },
   inputContainer: {
     width: '100%',
@@ -189,7 +205,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#FF2290',
+    backgroundColor: '#6366F1',
     paddingVertical: 14,
     borderRadius: 10,
     width: '100%',
@@ -199,5 +215,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
     fontSize: 16,
+    fontFamily: 'Montserrat_700Bold',
   },
 });

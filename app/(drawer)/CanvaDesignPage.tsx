@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   Alert,
   Dimensions,
+  Modal,
   PanResponder,
   StatusBar,
   StyleSheet,
@@ -11,13 +12,14 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import Svg, { Circle, Rect, Image as SvgImage, Text as SvgText } from 'react-native-svg';
+import Svg, { Circle, Ellipse, Line, Polygon, Rect, Image as SvgImage, Text as SvgText } from 'react-native-svg';
 import ViewShot from 'react-native-view-shot';
 
 import ColorPicker from '../../components/ColorPicker';
+import ShapePicker from '../../components/ShapePicker';
 import TextEditor from '../../components/TextEditor';
 import { useDesigns } from '../../contexts/DesignContext';
-import { Element, ImageElement, Shape, TextElement, Tool, useDesignStore } from '../../stores/DesignStore';
+import { Element, ImageElement, Shape, TextElement, Tool, useDesignStore } from '../../stores/designStore';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const CANVAS_WIDTH = screenWidth;
@@ -67,6 +69,7 @@ export default function CanvaDesignPage() {
     loadDesign,
     clearDesign,
     updateElement,
+    setCurrentTool,
   } = useDesignStore();
 
   const [showColorPicker, setShowColorPicker] = useState(false);
@@ -89,6 +92,7 @@ export default function CanvaDesignPage() {
     startHeight: 0,
     elementId: null,
   });
+  const [showShapePicker, setShowShapePicker] = useState(false);
   
   const canvasRef = useRef<View>(null);
   const viewShotRef = useRef<ViewShot>(null);
@@ -518,6 +522,55 @@ export default function CanvaDesignPage() {
             onPress={() => selectElement(element.id, false)}
           />
         );
+      case 'ellipse':
+        return (
+          <Ellipse
+            key={element.id}
+            cx={element.x + element.width / 2}
+            cy={element.y + element.height / 2}
+            rx={element.width / 2}
+            ry={element.height / 2}
+            fill={element.backgroundColor}
+            stroke={isSelected ? '#007AFF' : 'none'}
+            strokeWidth={isSelected ? 2 : 0}
+            onPress={() => selectElement(element.id, false)}
+          />
+        );
+      case 'triangle':
+        return (
+          <Polygon
+            key={element.id}
+            points={`${element.x},${element.y} ${element.x + element.width / 2},${element.y + element.height} ${element.x + element.width},${element.y}`}
+            fill={element.backgroundColor}
+            stroke={isSelected ? '#007AFF' : 'none'}
+            strokeWidth={isSelected ? 2 : 0}
+            onPress={() => selectElement(element.id, false)}
+          />
+        );
+      case 'line':
+        return (
+          <Line
+            key={element.id}
+            x1={element.x}
+            y1={element.y}
+            x2={element.x + element.width}
+            y2={element.y + element.height}
+            stroke={element.backgroundColor}
+            strokeWidth={isSelected ? 2 : 0}
+            onPress={() => selectElement(element.id, false)}
+          />
+        );
+      case 'star':
+        return (
+          <Polygon
+            key={element.id}
+            points={`${element.x + element.width / 2},${element.y} ${element.x + element.width * 0.16},${element.y + element.height * 0.16} ${element.x + element.width * 0.5},${element.y + element.height * 0.5} ${element.x + element.width * 0.84},${element.y + element.height * 0.16} ${element.x},${element.y}`}
+            fill={element.backgroundColor}
+            stroke={isSelected ? '#007AFF' : 'none'}
+            strokeWidth={isSelected ? 2 : 0}
+            onPress={() => selectElement(element.id, false)}
+          />
+        );
       default:
         return null;
     }
@@ -558,26 +611,27 @@ export default function CanvaDesignPage() {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1 }}>
       <StatusBar barStyle="dark-content" />
-      
       {/* Top Toolbar */}
       <View style={styles.topToolbar}>
         <TouchableOpacity style={styles.toolbarButton} onPress={() => undo()} disabled={!canUndo()}>
           <Ionicons name="arrow-undo" size={24} color={canUndo() ? '#333' : '#999'} />
         </TouchableOpacity>
-        
         <TouchableOpacity style={styles.toolbarButton} onPress={() => redo()} disabled={!canRedo()}>
           <Ionicons name="arrow-redo" size={24} color={canRedo() ? '#333' : '#999'} />
         </TouchableOpacity>
-        
+        {/* Shapes Button */}
+        <TouchableOpacity style={styles.toolbarButton} onPress={() => setShowShapePicker(true)}>
+          <Ionicons name="shapes" size={24} color="#333" />
+          <Text style={styles.toolbarButtonLabel}>Shapes</Text>
+        </TouchableOpacity>
         <TouchableOpacity 
           style={[
             styles.toolbarButton,
             selectedElements.length > 0 && styles.activeToolbarButton
           ]} 
           onPress={() => {
-            // Set target based on whether elements are selected
             if (selectedElements.length > 0) {
               setColorPickerTarget('element');
             } else {
@@ -595,15 +649,31 @@ export default function CanvaDesignPage() {
             <Text style={styles.toolbarButtonLabel}>Shape</Text>
           )}
         </TouchableOpacity>
-        
         <TouchableOpacity style={styles.toolbarButton} onPress={handleExport}>
           <Ionicons name="download" size={24} color="#333" />
         </TouchableOpacity>
-        
         <TouchableOpacity style={styles.toolbarButton} onPress={handleSaveDesign}>
           <Ionicons name="save" size={24} color="#333" />
         </TouchableOpacity>
       </View>
+
+      {/* Shape Picker Modal */}
+      <Modal visible={showShapePicker} transparent animationType="fade">
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.2)' }}>
+          <View style={{ backgroundColor: '#fff', borderRadius: 16, padding: 16, elevation: 8 }}>
+            <ShapePicker
+              selected={currentTool}
+              onSelect={type => {
+                setCurrentTool(type as Tool);
+                setShowShapePicker(false);
+              }}
+            />
+            <TouchableOpacity style={{ alignSelf: 'flex-end', marginTop: 8 }} onPress={() => setShowShapePicker(false)}>
+              <Text style={{ color: '#6366F1', fontWeight: 'bold' }}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       {/* Canvas */}
       <ViewShot ref={viewShotRef} style={styles.canvasContainer}>

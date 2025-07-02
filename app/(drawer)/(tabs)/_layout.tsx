@@ -1,11 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
-import { Platform } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Tabs, useRouter } from 'expo-router';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function TabLayout() {
+  const router = useRouter();
   return (
-    <SafeAreaProvider style={{ flex: 1 }}>
+    <>
       <Tabs
         screenOptions={{
           tabBarHideOnKeyboard: true,
@@ -13,23 +13,8 @@ export default function TabLayout() {
           tabBarStyle: {
             backgroundColor: '#FFFFFF',
             borderTopWidth: 0,
-            elevation: 0,
-            height: Platform.OS === 'ios' ? 85 : 60,
-            paddingBottom: Platform.OS === 'ios' ? 30 : 8,
-            paddingTop: 8,
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: -2,
-            },
-            shadowOpacity: 0.1,
-            shadowRadius: 3,
           },
-          tabBarActiveTintColor: '#FF2290',
+          tabBarActiveTintColor: '#6366F1',
           tabBarInactiveTintColor: '#333333',
           tabBarShowLabel: true,
           tabBarLabelStyle: {
@@ -74,6 +59,33 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-    </SafeAreaProvider>
+      {/* Floating Action Button */}
+      <TouchableOpacity
+        style={fabStyles.fab}
+        onPress={() => router.push('/(drawer)/CreateScreen')}
+        activeOpacity={0.8}
+      >
+        <Ionicons name="add" size={32} color="#fff" />
+      </TouchableOpacity>
+    </>
   );
 }
+
+const fabStyles = StyleSheet.create({
+  fab: {
+    position: 'absolute',
+    right: 24,
+    bottom: 80, // Adjust as needed to sit above the nav bar
+    backgroundColor: '#6366F1',
+    borderRadius: 32,
+    width: 56,
+    height: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+});
