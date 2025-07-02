@@ -1,4 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import CategoryTabs from '../../../components/CategoryTabs';
 import Header from '../../../components/Header';
@@ -21,9 +23,26 @@ const docsData = [
   { id: '2', label: 'Doc', image: 'https://placehold.co/120x90/ddd/000?text=Doc' },
 ];
 
+// Add DocTemplate type
+interface DocTemplate {
+  id: string;
+  text: string;
+  color: string;
+  fontFamily: string;
+  isBold: boolean;
+}
+
 export default function HomeScreen() {
   const { recentDesigns } = useDesigns();
   const router = useRouter();
+  const [docsTemplates, setDocsTemplates] = useState<DocTemplate[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const stored = await AsyncStorage.getItem('docsTemplates');
+      if (stored) setDocsTemplates(JSON.parse(stored));
+    })();
+  }, []);
 
   const handleSeeAllStories = () => {
     router.push('/YourStories' as any);
@@ -46,7 +65,7 @@ export default function HomeScreen() {
           data={storyTemplatesData} 
           onSeeAll={handleSeeAllStories}
         />
-        <Section title="Docs" data={docsData} />
+        <Section title="Docs" data={docsTemplates.map(t => ({ id: t.id, label: t.text ? t.text.slice(0, 20) + (t.text.length > 20 ? '...' : '') : 'Doc', image: '', preview: t.text }))} />
       </ScrollView>
     </KeyboardAvoidingView>
   );

@@ -75,7 +75,7 @@ const fabStyles = StyleSheet.create({
   fab: {
     position: 'absolute',
     right: 24,
-    bottom: 80, // Adjust as needed to sit above the nav bar
+    bottom: 120,
     backgroundColor: '#6366F1',
     borderRadius: 32,
     width: 56,

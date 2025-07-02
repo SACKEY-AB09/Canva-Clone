@@ -24,7 +24,7 @@ const categories: Category[] = [
 const extraCategories: Category[] = [
     { icon: 'file-table', label: 'Sheets', bgColor: '#4285F440', iconColor: '#4285F4' },
     { icon: 'presentation', label: 'Presentation', bgColor: '#34A85340', iconColor: '#34A853' },
-    { icon: 'file-document-edit', label: 'Doc', bgColor: '#FBBC0540', iconColor: '#FBBC05' },
+    { icon: 'file-document-edit', label: 'Doc', bgColor: '#FBBC0540', iconColor: '#FBBC05', route: '/(drawer)/DocsEditor' },
     { icon: 'web', label: 'Website', bgColor: '#EA433540', iconColor: '#EA4335' },
   ];
 

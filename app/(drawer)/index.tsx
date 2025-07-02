@@ -145,7 +145,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   link: {
-    color: 'hotpink',
+    color: '#6366F1',
+    fontFamily: 'Montserrat_700Regular',
   },
   terms: {
     fontSize: 12,
